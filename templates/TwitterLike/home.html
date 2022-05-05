@@ -1,8 +1,17 @@
 {% extends 'TwitterLike/base.html' %}
 {% block content %}
     {% for tweet in tweets %}
-        <h1>{{tweet.author}}</h1>
-        <h1>{{ tweet.pub_date }}</h1>
-
+        <a href="{{ tweet.id }}">
+        <div style="display: flex">
+        <h1 style="top: 0; left:0">{{tweet.author}}</h1>
+        <h1 style="margin: 0; left:50%; position: relative">{{ tweet.pub_date }}</h1>
+        </div>
+        <p>{{ tweet.desc }}</p>
+        {% if tweet.img %}
+        <img src="{{ tweet.img }}">
+        {% endif %}
+        <p>{{ tweet.retweet_counter }}</p>
+        <p>{{ tweet.comment_counter }}</p>
+        </a>
     {% endfor %}
 {% endblock %}

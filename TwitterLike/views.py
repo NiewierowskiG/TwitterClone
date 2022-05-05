@@ -10,7 +10,7 @@ def home_page(request):
 
 
 def create_post(request):
-    if (request.method == "POST"):
+    if request.method == "POST":
         form = CreatePost(request.POST)
         if (form.is_valid()):
             Tweet.objects.create(author=request.user, desc=request.POST.get('desc'), img=request.POST.get('img'))

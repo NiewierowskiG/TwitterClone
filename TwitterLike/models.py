@@ -9,6 +9,12 @@ class Tweet(models.Model):
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='likes')
     pub_date = models.DateTimeField(auto_now_add=True)
 
+    def retweet_counter(self):
+        return self.retweet_set.all().count()
+
+    def comment_counter(self):
+        return self.comment_set.all().count()
+
 
 class Retweet(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
