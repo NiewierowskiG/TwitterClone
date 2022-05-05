@@ -1,0 +1,8 @@
+{% extends 'TwitterLike/base.html' %}
+{% block content %}
+    {% for tweet in tweets %}
+        <h1>{{tweet.author}}</h1>
+        <h1>{{ tweet.pub_date }}</h1>
+
+    {% endfor %}
+{% endblock %}
