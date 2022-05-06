@@ -1,7 +1,6 @@
 {% extends 'TwitterLike/base.html' %}
+{% block title %} A Tweet {% endblock %}
 {% block content %}
-    {% for tweet in tweets %}
-        <a href="{{ tweet.id }}">
         <div style="display: flex">
         <h1 style="top: 0; left:0">{{tweet.author}}</h1>
         <h1 style="margin: 0; left:50%; position: relative">{{ tweet.pub_date }}</h1>
@@ -12,7 +11,6 @@
         {% endif %}
         <p>{{ tweet.retweet_counter }}</p>
         <p>{{ tweet.comment_counter }}</p>
-        </a>
         {% if user in tweet.likes.all %}
         <form action="#" method="get">
             <input type="hidden" name="tweet_id" value={{ tweet.id }}>
@@ -28,5 +26,20 @@
             <h1>{{like.username}}</h1>
         {% endfor %}
         <h1>{{ tweet.likes.all.count }}</h1>
+    {% for comment in tweet.get_comments %}
+        <div>
+        <h1>{{comment.desc}}</h1>
+        {% if user in comment.likes.all %}
+        <form action="#" method="get">
+            <input type="hidden" name="comment_id" value={{ comment.id }}>
+            <input style="height: 50px; width: 200px" type="submit" class="btn" value="unlike" name="unliked-comment">
+        </form>
+        {% else %}
+        <form action="#" method="get">
+            <input type="hidden" name="comment_id" value={{ comment.id }}>
+            <input style="height: 50px; width: 200px" type="submit" class="btn" value="like" name="liked-comment">
+        </form>
+        {% endif %}
+        </div>
     {% endfor %}
 {% endblock %}

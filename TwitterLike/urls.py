@@ -6,5 +6,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('', views.home_page),
-    path('create', views.create_post)
+    path('create', views.create_post),
+    path('<int:pk>', views.single_tweet),
+    path('<int:pk>/comment', views.create_comment)
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
