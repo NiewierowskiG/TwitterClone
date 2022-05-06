@@ -1,11 +1,91 @@
 {% extends 'TwitterLike/base.html' %}
 {% block title %} {{ user.username }} {% endblock %}
 {% block content %}
-{% for element in tweet_list %}
-    {% if element.classname == "Tweet" %}
-    <h1>Tweet</h1>
-    {% elif element.classname == "Retweet" %}
-    <h1>Retweet</h1>
-    {% endif %}
-{% endfor %}
+    {% for element in tweet_list %}
+        {% if element.classname == "Tweet" %}
+            <div class="border border-dark">
+                <a href="{{ tweet.id }}">
+                    <div style="display: flex">
+                        <h1 style="top: 0; left:0">{{ tweet.author }}</h1>
+                        <h1 style="margin: 0; left:50%; position: relative">{{ tweet.pub_date }}</h1>
+                    </div>
+                    <p>{{ element.desc }}</p>
+                    {% if element.img %}
+                        <img src="{{ element.img }}" style="width: 100%">
+                    {% endif %}
+                </a>
+                {% load bootstrap_icons %}
+                <div style="display: flex">
+                    {% if user in element.likes.all %}
+                        <form action="#" method="get">
+                            <input type="hidden" name="tweet_id" value={{ element.id }}>
+                            <button name="unliked" type="submit" value={{ element.likes.all.count }}>
+                                {% bs_icon 'hand-thumbs-up-fill' %}
+                                {{ element.likes.all.count }}
+                            </button>
+                        </form>
+                    {% else %}
+                        <form action="#" method="get">
+                            <input type="hidden" name="tweet_id" value={{ element.id }}>
+                            <button name="liked" type="submit" value={{ element.likes.all.count }}>
+                                {% bs_icon 'hand-thumbs-up' %}
+                                {{ element.likes.all.count }}
+                            </button>
+                        </form>
+                    {% endif %}
+                    <button>
+                        {% bs_icon 'chat' %}
+                        {{ element.comment_counter }}
+                    </button>
+                    <button>
+                        {% bs_icon 'arrow-clockwise' %}
+                        {{ element.retweet_counter }}
+                    </button>
+                </div>
+            </div>
+        {% elif element.classname == "Retweet" %}
+            <h2>Retweet</h2>
+            <div class="border border-dark">
+                <a href="{{ tweet.id }}">
+                    <div style="display: flex">
+                        <h1 style="top: 0; left:0">{{ element.tweet.author }}</h1>
+                        <h1 style="margin: 0; left:50%; position: relative">{{ element.tweet.pub_date }}</h1>
+                    </div>
+                    <p>{{ element.tweet.desc }}</p>
+                    {% if element.tweet.img %}
+                        <img src="{{ element.tweet.img }}" style="width: 100%">
+                    {% endif %}
+                </a>
+                {% load bootstrap_icons %}
+                <div style="display: flex">
+                    {% if user in element.tweet.likes.all %}
+                        <form action="#" method="get">
+                            <input type="hidden" name="tweet_id" value={{ element.tweet.id }}>
+                            <button name="unliked" type="submit" value={{ element.tweet.likes.all.count }}>
+                                {% bs_icon 'hand-thumbs-up-fill' %}
+                                {{ element.tweet.likes.all.count }}
+                            </button>
+                        </form>
+                    {% else %}
+                        <form action="#" method="get">
+                            <input type="hidden" name="tweet_id" value={{ element.tweet.id }}>
+                            <button name="liked" type="submit" value={{ element.tweet.likes.all.count }}>
+                                {% bs_icon 'hand-thumbs-up' %}
+                                {{ element.tweet.likes.all.count }}
+                            </button>
+                        </form>
+                    {% endif %}
+                    <button>
+                        {% bs_icon 'chat' %}
+                        {{ element.tweet.comment_counter }}
+                    </button>
+                    <button>
+                        {% bs_icon 'arrow-clockwise' %}
+                        {{ element.tweet.retweet_counter }}
+                    </button>
+                </div>
+            </div>
+        {% endif %}
+        <br>
+    {% endfor %}
 {% endblock %}

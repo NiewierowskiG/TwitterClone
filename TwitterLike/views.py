@@ -73,4 +73,3 @@ def user_page(request, username):
     except User.DoesNotExist:
         raise Http404
     return render(request, "TwitterLike/user_page.html", {"user": user, "tweet_list": tweet_list})
-

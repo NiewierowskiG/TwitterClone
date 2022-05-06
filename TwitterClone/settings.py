@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'register.apps.RegisterConfig',
     'TwitterLike.apps.TwitterlikeConfig',
+    'django_bootstrap_icons',
 ]
 
 MIDDLEWARE = [

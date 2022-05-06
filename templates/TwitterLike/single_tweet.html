@@ -1,45 +1,63 @@
 {% extends 'TwitterLike/base.html' %}
 {% block title %} A Tweet {% endblock %}
 {% block content %}
+    {% load bootstrap_icons %}
+    <div>
         <div style="display: flex">
-        <h1 style="top: 0; left:0">{{tweet.author}}</h1>
-        <h1 style="margin: 0; left:50%; position: relative">{{ tweet.pub_date }}</h1>
+            <h1 style="top: 0; left:0">{{ tweet.author }}</h1>
+            <h1 style="margin: 0; left:50%; position: relative">{{ tweet.pub_date }}</h1>
         </div>
         <p>{{ tweet.desc }}</p>
         {% if tweet.img %}
-        <img src="{{ tweet.img }}">
+            <img src="{{ tweet.img }}">
         {% endif %}
-        <p>{{ tweet.retweet_counter }}</p>
-        <p>{{ tweet.comment_counter }}</p>
         {% if user in tweet.likes.all %}
-        <form action="#" method="get">
-            <input type="hidden" name="tweet_id" value={{ tweet.id }}>
-            <input style="height: 50px; width: 200px" type="submit" class="btn" value="unlike" name="unliked">
-        </form>
+            <form action="#" method="get">
+                <input type="hidden" name="tweet_id" value={{ tweet.id }}>
+                <button name="unliked" type="submit" value={{ tweet.likes.all.count }}>
+                    {% bs_icon 'hand-thumbs-up-fill' %}
+                    {{ tweet.likes.all.count }}
+                </button>
+            </form>
         {% else %}
-        <form action="#" method="get">
-            <input type="hidden" name="tweet_id" value={{ tweet.id }}>
-            <input style="height: 50px; width: 200px" type="submit" class="btn" value="like" name="liked">
-        </form>
+            <form action="#" method="get">
+                <input type="hidden" name="tweet_id" value={{ tweet.id }}>
+                <button name="liked" type="submit" value={{ tweet.likes.all.count }}>
+                    {% bs_icon 'hand-thumbs-up' %}
+                    {{ tweet.likes.all.count }}
+                </button>
+            </form>
         {% endif %}
-        {% for like in tweet.likes.all %}
-            <h1>{{like.username}}</h1>
-        {% endfor %}
-        <h1>{{ tweet.likes.all.count }}</h1>
+        <button>
+            {% bs_icon 'arrow-clockwise' %}
+            {{ tweet.retweet_counter }}
+        </button>
+    </div>
+    <h1>Comments:</h1>
     {% for comment in tweet.get_comments %}
-        <div>
-        <h1>{{comment.desc}}</h1>
-        {% if user in comment.likes.all %}
-        <form action="#" method="get">
-            <input type="hidden" name="comment_id" value={{ comment.id }}>
-            <input style="height: 50px; width: 200px" type="submit" class="btn" value="unlike" name="unliked-comment">
-        </form>
-        {% else %}
-        <form action="#" method="get">
-            <input type="hidden" name="comment_id" value={{ comment.id }}>
-            <input style="height: 50px; width: 200px" type="submit" class="btn" value="like" name="liked-comment">
-        </form>
-        {% endif %}
+        <div class="border border-dark">
+            <div style="display: flex">
+            <h1 style="top: 0; left:0">{{ comment.author }}</h1>
         </div>
+            <p>{{ comment.desc }}</p>
+            {% if user in comment.likes.all %}
+                    <form action="#" method="get">
+                        <input type="hidden" name="comment_id" value={{ comment.id }}>
+                        <button name="unliked-comment" type="submit" value={{ tweet.likes.all.count }}>
+                            {% bs_icon 'hand-thumbs-up-fill' %}
+                            {{ comment.likes.all.count }}
+                        </button>
+                    </form>
+                {% else %}
+                    <form action="#" method="get">
+                        <input type="hidden" name="comment_id" value={{ comment.id }}>
+                        <button name="liked-comment" type="submit" value={{ tweet.likes.all.count }}>
+                            {% bs_icon 'hand-thumbs-up' %}
+                            {{ comment.likes.all.count }}
+                        </button>
+                    </form>
+                {% endif %}
+        </div>
+        <br>
     {% endfor %}
 {% endblock %}
