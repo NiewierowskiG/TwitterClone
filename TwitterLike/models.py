@@ -20,9 +20,16 @@ class Tweet(models.Model):
     def get_comments(self):
         return self.comment_set.all()
 
+    def classname(self):
+        return "Tweet"
+
 class Retweet(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     tweet = models.ForeignKey(Tweet, on_delete=models.CASCADE)
+    pub_date = models.DateTimeField(auto_now_add=True)
+
+    def classname(self):
+        return "Retweet"
 
 
 class Comment(models.Model):

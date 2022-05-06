@@ -1,7 +1,10 @@
-from django.http import HttpResponse
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from .forms import CreatePost
 from .models import Comment, Tweet, Retweet
+from django.http import Http404
+from operator import attrgetter
+from itertools import chain
 
 
 def home_page(request):
@@ -14,7 +17,6 @@ def home_page(request):
         tweet = Tweet.objects.filter(id=(request.GET.get('tweet_id')))[0]
         tweet.likes.remove(request.user)
     tweets = Tweet.objects.all().order_by('-pub_date')
-    tweet = list(tweets[0].likes.check())
     user = request.user
     return render(request, 'TwitterLike/home.html', {"tweets": tweets, "user": user})
 
@@ -22,7 +24,7 @@ def home_page(request):
 def create_post(request):
     if request.method == "POST":
         form = CreatePost(request.POST)
-        if (form.is_valid()):
+        if form.is_valid():
             Tweet.objects.create(author=request.user, desc=request.POST.get('desc'), img=request.POST.get('img'))
             return redirect('/twitter')
     else:
@@ -52,9 +54,23 @@ def single_tweet(request, pk):
 def create_comment(request, pk):
     if request.method == "POST":
         form = CreatePost(request.POST)
-        if (form.is_valid()):
-            Comment.objects.create(author=request.user, desc=request.POST.get('desc'), img=request.POST.get('img'), tweet=Tweet.objects.get(id=pk))
+        if form.is_valid():
+            Comment.objects.create(author=request.user, desc=request.POST.get('desc'), img=request.POST.get('img'),
+                                   tweet=Tweet.objects.get(id=pk))
             return redirect(f'/twitter/{pk}')
     else:
         form = CreatePost()
     return render(request, "TwitterLike/create_comment.html", {"form": form})
+
+
+def user_page(request, username):
+    try:
+        user = User.objects.get(username=username)
+        tweets = Tweet.objects.filter(author=user)
+        retweets = Retweet.objects.filter(author=user)
+        tweet_list = list(tweets) + list(retweets)
+        tweet_list.sort(key=lambda x: x.pub_date, reverse=True)
+    except User.DoesNotExist:
+        raise Http404
+    return render(request, "TwitterLike/user_page.html", {"user": user, "tweet_list": tweet_list})
+

@@ -1,0 +1,11 @@
+{% extends 'TwitterLike/base.html' %}
+{% block title %} {{ user.username }} {% endblock %}
+{% block content %}
+{% for element in tweet_list %}
+    {% if element.classname == "Tweet" %}
+    <h1>Tweet</h1>
+    {% elif element.classname == "Retweet" %}
+    <h1>Retweet</h1>
+    {% endif %}
+{% endfor %}
+{% endblock %}
