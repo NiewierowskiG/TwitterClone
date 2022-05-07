@@ -23,7 +23,7 @@ def home_page(request):
 
 def create_post(request):
     if request.method == "POST":
-        form = CreatePost(request.POST)
+        form = CreatePost(request.POST, request.FILES)
         if form.is_valid():
             Tweet.objects.create(author=request.user, desc=request.POST.get('desc'), img=request.POST.get('img'))
             return redirect('/twitter')
@@ -52,6 +52,8 @@ def single_tweet(request, pk):
 
 
 def create_comment(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('/login')
     if request.method == "POST":
         form = CreatePost(request.POST)
         if form.is_valid():

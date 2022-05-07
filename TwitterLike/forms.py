@@ -1,6 +1,8 @@
 from django import forms
+from .models import Tweet
 
 
-class CreatePost(forms.Form):
-    desc = forms.CharField(widget=forms.Textarea)
-    img = forms.ImageField(required=False)
+class CreatePost(forms.ModelForm):
+    class Meta:
+        model = Tweet
+        fields = ('desc', 'img')

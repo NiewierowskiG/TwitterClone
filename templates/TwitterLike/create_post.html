@@ -1,7 +1,8 @@
 {% extends 'TwitterLike/base.html' %}
 {% block title %} Create Post {% endblock %}
 {% block content %}
-    <form method="post" class="form-group">
+    <h1>yo</h1>
+    <form method="post" class="form-group" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="button">Dodaj post</button>

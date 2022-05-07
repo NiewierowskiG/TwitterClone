@@ -6,12 +6,12 @@
             <div class="border border-dark">
                 <a href="{{ tweet.id }}">
                     <div style="display: flex">
-                        <h1 style="top: 0; left:0">{{ tweet.author }}</h1>
-                        <h1 style="margin: 0; left:50%; position: relative">{{ tweet.pub_date }}</h1>
+                        <h1 style="top: 0; left:0">{{ element.author }}</h1>
+                        <h1 style="margin: 0; left:50%; position: relative">{{ element.pub_date }}</h1>
                     </div>
                     <p>{{ element.desc }}</p>
                     {% if element.img %}
-                        <img src="{{ element.img }}" style="width: 100%">
+                        <img src="/media/{{ element.img }}" style="width: 100%">
                     {% endif %}
                 </a>
                 {% load bootstrap_icons %}
@@ -53,7 +53,7 @@
                     </div>
                     <p>{{ element.tweet.desc }}</p>
                     {% if element.tweet.img %}
-                        <img src="{{ element.tweet.img }}" style="width: 100%">
+                        <img src="/media/{{ element.tweet.img }}" style="width: 100%">
                     {% endif %}
                 </a>
                 {% load bootstrap_icons %}

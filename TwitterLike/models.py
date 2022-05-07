@@ -7,7 +7,7 @@ register = template.Library()
 class Tweet(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     desc = models.TextField(max_length=500)
-    img = models.ImageField(blank=True, upload_to="tweet_images/")
+    img = models.ImageField(blank=True, upload_to="tweet_images")
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='likes')
     pub_date = models.DateTimeField(auto_now_add=True)
 
@@ -22,6 +22,7 @@ class Tweet(models.Model):
 
     def classname(self):
         return "Tweet"
+
 
 class Retweet(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
