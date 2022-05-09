@@ -25,7 +25,7 @@ def create_post(request):
     if request.method == "POST":
         form = CreatePost(request.POST, request.FILES)
         if form.is_valid():
-            Tweet.objects.create(author=request.user, desc=request.POST.get('desc'), img=request.POST.get('img'))
+            Tweet.objects.create(author=request.user, desc=form.cleaned_data.get('desc'), img=form.cleaned_data.get('img'))
             return redirect('/twitter')
     else:
         form = CreatePost()
