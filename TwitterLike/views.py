@@ -55,9 +55,9 @@ def create_comment(request, pk):
     if not request.user.is_authenticated:
         return redirect('/login')
     if request.method == "POST":
-        form = CreatePost(request.POST)
+        form = CreatePost(request.POST, request.FILES)
         if form.is_valid():
-            Comment.objects.create(author=request.user, desc=request.POST.get('desc'), img=request.POST.get('img'),
+            Comment.objects.create(author=request.user, desc=form.cleaned_data.get('desc'), img=form.cleaned_data.get('img'),
                                    tweet=Tweet.objects.get(id=pk))
             return redirect(f'/twitter/{pk}')
     else:
