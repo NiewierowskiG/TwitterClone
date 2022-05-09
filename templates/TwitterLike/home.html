@@ -42,10 +42,13 @@
                 {% bs_icon 'chat' %}
                 {{ tweet.comment_counter }}
             </button>
-            <button>
-                {% bs_icon 'arrow-clockwise' %}
-                {{ tweet.retweet_counter }}
-            </button>
+            <form action="#" method="get">
+                <input type="hidden" name="tweet_id" value={{ tweet.id }}>
+                <button name="retweet" type="submit" value="1">
+                    {% bs_icon 'arrow-clockwise' %}
+                    {{ tweet.retweet_counter }}
+                </button>
+            </form>
             </div>
         </div>
         <br>

@@ -16,6 +16,9 @@ def home_page(request):
     if request.GET.get('unliked'):
         tweet = Tweet.objects.filter(id=(request.GET.get('tweet_id')))[0]
         tweet.likes.remove(request.user)
+    if request.GET.get('retweet'):
+        tweet = Tweet.objects.filter(id=(request.GET.get('tweet_id')))[0]
+        retweet = Retweet.objects.create(author=request.user, tweet=tweet)
     tweets = Tweet.objects.all().order_by('-pub_date')
     user = request.user
     return render(request, 'TwitterLike/home.html', {"tweets": tweets, "user": user})
@@ -48,6 +51,9 @@ def single_tweet(request, pk):
     if request.GET.get('unliked-comment'):
         comment = Comment.objects.get(id=(request.GET.get('comment_id')))
         comment.likes.remove(request.user)
+    if request.GET.get('retweet'):
+        tweet = Tweet.objects.filter(id=(request.GET.get('tweet_id')))[0]
+        retweet = Retweet.objects.create(author=request.user, tweet=tweet)
     return render(request, "TwitterLike/single_tweet.html", {"tweet": tweet, "user": request.user})
 
 
