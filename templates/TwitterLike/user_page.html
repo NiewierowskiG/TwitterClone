@@ -4,11 +4,14 @@
     {% for element in tweet_list %}
         {% if element.classname == "Tweet" %}
             <div class="border border-dark">
-                <a href="{{ tweet.id }}">
+
                     <div style="display: flex">
+                        <a href="/twitter/{{ element.author }}">
                         <h1 style="top: 0; left:0">{{ element.author }}</h1>
+                        </a>
                         <h1 style="margin: 0; left:50%; position: relative">{{ element.pub_date }}</h1>
                     </div>
+                <a href="/twitter/{{ tweet.id }}">
                     <p>{{ element.desc }}</p>
                     {% if element.img %}
                         <img src="/media/{{ element.img }}" style="width: 100%">
@@ -46,11 +49,14 @@
         {% elif element.classname == "Retweet" %}
             <h2>Retweet</h2>
             <div class="border border-dark">
-                <a href="{{ tweet.id }}">
+
                     <div style="display: flex">
+                        <a href="/twitter/{{ element.tweet.author }}">
                         <h1 style="top: 0; left:0">{{ element.tweet.author }}</h1>
+                        </a>
                         <h1 style="margin: 0; left:50%; position: relative">{{ element.tweet.pub_date }}</h1>
                     </div>
+                    <a href="{{ tweet.id }}">
                     <p>{{ element.tweet.desc }}</p>
                     {% if element.tweet.img %}
                         <img src="/media/{{ element.tweet.img }}" style="width: 100%">

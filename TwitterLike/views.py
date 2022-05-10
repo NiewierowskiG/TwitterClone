@@ -3,8 +3,7 @@ from django.shortcuts import render, redirect
 from .forms import CreatePost
 from .models import Comment, Tweet, Retweet
 from django.http import Http404
-from operator import attrgetter
-from itertools import chain
+from django.contrib.auth.decorators import login_required
 
 
 def home_page(request):
@@ -24,6 +23,7 @@ def home_page(request):
     return render(request, 'TwitterLike/home.html', {"tweets": tweets, "user": user})
 
 
+@login_required()
 def create_post(request):
     if request.method == "POST":
         form = CreatePost(request.POST, request.FILES)
@@ -57,6 +57,7 @@ def single_tweet(request, pk):
     return render(request, "TwitterLike/single_tweet.html", {"tweet": tweet, "user": request.user})
 
 
+@login_required()
 def create_comment(request, pk):
     if not request.user.is_authenticated:
         return redirect('/login')
