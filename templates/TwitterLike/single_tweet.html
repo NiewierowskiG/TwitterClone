@@ -11,7 +11,7 @@
         </div>
         <p>{{ tweet.desc }}</p>
         {% if tweet.img %}
-            <img src="/media/{{ tweet.img }}">
+            <img src="/media/{{ tweet.img }}" style="height: 200px; width: 200px">
         {% endif %}
         {% if user in tweet.likes.all %}
             <form action="#" method="get">

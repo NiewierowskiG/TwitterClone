@@ -14,7 +14,7 @@
                 <a href="/twitter/{{ tweet.id }}">
                     <p>{{ element.desc }}</p>
                     {% if element.img %}
-                        <img src="/media/{{ element.img }}" style="width: 100%">
+                        <img src="/media/{{ element.img }}" style="height: 200px; width: 200px">
                     {% endif %}
                 </a>
                 {% load bootstrap_icons %}
@@ -59,7 +59,7 @@
                     <a href="{{ tweet.id }}">
                     <p>{{ element.tweet.desc }}</p>
                     {% if element.tweet.img %}
-                        <img src="/media/{{ element.tweet.img }}" style="width: 100%">
+                        <img src="/media/{{ element.tweet.img }}" style="height: 200px; width: 200px">
                     {% endif %}
                 </a>
                 {% load bootstrap_icons %}
